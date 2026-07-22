@@ -32,10 +32,20 @@ export interface ExtensionsInfo {
   feedback_submission_url: string | null;
 }
 
+export type FeatureVerdict = "flattering" | "opportunity";
+
+export interface FeatureInsight {
+  feature: string;
+  verdict: FeatureVerdict;
+  observation: string;
+  tip: string;
+}
+
 export interface AnalyzeResponse {
   face_detected: boolean;
   face_count: number;
   face_shape: FaceShapeInfo | null;
   recommendations: RecommendationSet | null;
+  feature_insights: FeatureInsight[] | null;
   extensions: ExtensionsInfo;
 }

@@ -224,7 +224,9 @@ export default function FaceAnalyzerApp() {
         </div>
       )}
 
-      {step === "results" && result && <ResultsView result={result} onReset={handleReset} />}
+      {step === "results" && result && (
+        <ResultsView result={result} previewUrl={previewUrl} onReset={handleReset} />
+      )}
 
       <footer className="mt-auto pt-16 text-center text-xs text-ink-dim/70">
         Your photo is analyzed in memory and never stored.

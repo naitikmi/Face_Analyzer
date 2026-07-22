@@ -27,6 +27,7 @@ class FaceShapeResult:
     confidence: float
     all_scores: Dict[FaceShape, float]
     measurements: Dict[str, float]
+    ratios: Dict[str, float]
 
 
 class FaceShapeClassifier:
@@ -216,7 +217,8 @@ class FaceShapeClassifier:
             shape=best_shape,
             confidence=confidence,
             all_scores=scores,
-            measurements=measurements
+            measurements=measurements,
+            ratios=ratios
         )
     
     def get_shape_description(self, shape: FaceShape) -> str:

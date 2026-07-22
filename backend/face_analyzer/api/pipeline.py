@@ -17,6 +17,7 @@ from face_analyzer.models.face_shape import FaceShapeClassifier
 from face_analyzer.models.beard_recommender import BeardStyleRecommender
 from face_analyzer.models.hair_recommender import HairStyleRecommender
 from face_analyzer.models.glasses_recommender import GlassesStyleRecommender
+from face_analyzer.models.feature_insights import analyze_features
 
 
 def slugify(style_name: str) -> str:
@@ -31,6 +32,7 @@ _EMPTY_RESULT = {
     "face_count": 0,
     "face_shape": None,
     "recommendations": None,
+    "feature_insights": None,
     "extensions": {"skin_analysis": None, "feedback_submission_url": None},
 }
 
@@ -82,6 +84,7 @@ class AnalysisPipeline:
         glasses_recs = self.glasses_recommender.recommend(
             face_shape, face_measurements=shape_result.measurements
         )
+        feature_notes = analyze_features(landmarks.landmarks, shape_result.ratios)
 
         return {
             "face_detected": True,
@@ -126,6 +129,15 @@ class AnalysisPipeline:
                     for r in glasses_recs
                 ],
             },
+            "feature_insights": [
+                {
+                    "feature": note.feature,
+                    "verdict": note.verdict,
+                    "observation": note.observation,
+                    "tip": note.tip,
+                }
+                for note in feature_notes
+            ],
             "extensions": {"skin_analysis": None, "feedback_submission_url": None},
         }
 

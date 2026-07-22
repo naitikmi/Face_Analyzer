@@ -1,6 +1,6 @@
 "use client";
 
-import type { AnalyzeResponse, RecommendationItem } from "@/lib/types";
+import type { AnalyzeResponse, FeatureInsight, RecommendationItem } from "@/lib/types";
 import RecommendationCard from "./RecommendationCard";
 
 function ShapeDistribution({ scores, leadingShape }: { scores: Record<string, number>; leadingShape: string }) {
@@ -29,6 +29,32 @@ function ShapeDistribution({ scores, leadingShape }: { scores: Record<string, nu
   );
 }
 
+function FeatureCard({ note }: { note: FeatureInsight }) {
+  const isFlattering = note.verdict === "flattering";
+  return (
+    <div className="grain-panel flex flex-col gap-3 rounded-2xl p-5">
+      <div className="flex items-center justify-between gap-3">
+        <h4 className="font-display text-lg text-ink">{note.feature}</h4>
+        <span
+          className={`shrink-0 rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider ${
+            isFlattering
+              ? "border-brass/50 bg-brass/10 text-brass-bright"
+              : "border-sage/50 bg-sage/10 text-sage"
+          }`}
+        >
+          {isFlattering ? "Flattering" : "Styling opportunity"}
+        </span>
+      </div>
+      <p className="text-sm leading-relaxed text-ink-dim">{note.observation}</p>
+      <div className="rule" />
+      <p className="text-sm leading-relaxed text-ink">
+        <span className="font-medium text-brass-bright">Try this — </span>
+        {note.tip}
+      </p>
+    </div>
+  );
+}
+
 function Rail({ title, items }: { title: string; items: RecommendationItem[] }) {
   if (items.length === 0) return null;
   return (
@@ -49,9 +75,11 @@ function Rail({ title, items }: { title: string; items: RecommendationItem[] }) 
 
 export default function ResultsView({
   result,
+  previewUrl,
   onReset,
 }: {
   result: AnalyzeResponse;
+  previewUrl: string | null;
   onReset: () => void;
 }) {
   if (!result.face_detected || !result.face_shape || !result.recommendations) {
@@ -72,7 +100,7 @@ export default function ResultsView({
     );
   }
 
-  const { face_shape, recommendations, face_count } = result;
+  const { face_shape, recommendations, face_count, feature_insights } = result;
 
   return (
     <div className="reveal flex flex-col gap-14">
@@ -84,6 +112,14 @@ export default function ResultsView({
 
       <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-6 text-center">
         <span className="text-xs uppercase tracking-[0.3em] text-ink-dim">Your reading</span>
+
+        {previewUrl && (
+          <div className="relative h-32 w-32 overflow-hidden rounded-full border-2 border-brass/50 shadow-[0_0_0_1px_rgba(201,161,90,0.1),0_20px_40px_-15px_rgba(0,0,0,0.7)] sm:h-40 sm:w-40">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={previewUrl} alt="The photo you submitted" className="h-full w-full object-cover" />
+          </div>
+        )}
+
         <h2 className="font-display text-5xl italic capitalize text-ink sm:text-6xl">{face_shape.shape}</h2>
         <p className="max-w-md text-balance text-ink-dim">{face_shape.description}</p>
         <div className="w-full max-w-sm">
@@ -92,6 +128,25 @@ export default function ResultsView({
       </div>
 
       <div className="rule" />
+
+      {feature_insights && feature_insights.length > 0 && (
+        <>
+          <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
+            <div className="flex flex-col items-center gap-2 text-center">
+              <h3 className="font-display text-3xl italic text-ink">Feature by feature</h3>
+              <p className="max-w-lg text-sm text-ink-dim">
+                What&apos;s already working, and where a style choice can enhance or balance a feature further.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {feature_insights.map((note) => (
+                <FeatureCard key={note.feature} note={note} />
+              ))}
+            </div>
+          </div>
+          <div className="rule" />
+        </>
+      )}
 
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-12">
         <Rail title="Beard styles" items={recommendations.beard} />

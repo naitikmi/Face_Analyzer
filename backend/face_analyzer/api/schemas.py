@@ -1,7 +1,7 @@
 """
 Pydantic request/response schemas for the Face Analyzer API.
 """
-from typing import Dict, List, Optional
+from typing import Dict, List, Literal, Optional
 from pydantic import BaseModel
 
 
@@ -31,6 +31,13 @@ class RecommendationSet(BaseModel):
     glasses: List[RecommendationItem]
 
 
+class FeatureInsight(BaseModel):
+    feature: str
+    verdict: Literal["flattering", "opportunity"]
+    observation: str
+    tip: str
+
+
 class ExtensionsInfo(BaseModel):
     # Placeholders for Phase 2 features (skin/acne analysis, feedback-driven
     # offline retraining). Populated once those features ship; left null so
@@ -44,4 +51,5 @@ class AnalyzeResponse(BaseModel):
     face_count: int
     face_shape: Optional[FaceShapeInfo] = None
     recommendations: Optional[RecommendationSet] = None
+    feature_insights: Optional[List[FeatureInsight]] = None
     extensions: ExtensionsInfo
