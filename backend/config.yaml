@@ -1,0 +1,215 @@
+# Face Analyzer Configuration
+
+# Model paths
+MODEL_DIR: "models/weights"
+FACE_DETECTION_MODEL: "models/weights/face_detection.onnx"
+FACE_LANDMARK_MODEL: "models/weights/face_landmarks.onnx"
+FACE_SHAPE_MODEL: "models/weights/face_shape_classifier.onnx"
+BEARD_STYLE_MODEL: "models/weights/beard_recommender.onnx"
+HAIR_STYLE_MODEL: "models/weights/hair_recommender.onnx"
+GLASSES_STYLE_MODEL: "models/weights/glasses_recommender.onnx"
+
+# Face shape classes
+FACE_SHAPES:
+  - "oval"
+  - "round"
+  - "square"
+  - "heart"
+  - "diamond"
+  - "oblong"
+  - "triangle"
+
+# Beard styles by face shape
+BEARD_STYLES:
+  oval:
+    - "full beard"
+    - "goatee"
+    - "stubble"
+    - "van dyke"
+    - "anchor beard"
+  round:
+    - "extended goatee"
+    - "chin strap"
+    - "soul patch"
+    - "van dyke"
+    - "balbo"
+  square:
+    - "circle beard"
+    - "goatee"
+    - "chin curtain"
+    - "mutton chops"
+    - "stubble"
+  heart:
+    - "chin strap"
+    - "goatee"
+    - "soul patch"
+    - "stubble"
+    - "van dyke"
+  diamond:
+    - "full beard"
+    - "goatee"
+    - "chin strap"
+    - "stubble"
+    - "anchor beard"
+  oblong:
+    - "full beard"
+    - "mutton chops"
+    - "chin curtain"
+    - "stubble"
+    - "garibaldi"
+  triangle:
+    - "full beard"
+    - "goatee"
+    - "chin strap"
+    - "stubble"
+    - "van dyke"
+
+# Glasses frame styles by face shape
+# Heuristic: pick frame shapes that contrast the face shape (angular frames
+# soften round faces, rounded frames soften angular faces, etc.)
+GLASSES_STYLES:
+  oval:
+    - "rectangular frames"
+    - "square frames"
+    - "aviator"
+    - "browline"
+    - "wayfarer"
+  round:
+    - "square frames"
+    - "rectangular frames"
+    - "geometric frames"
+    - "browline"
+    - "wayfarer"
+  square:
+    - "round frames"
+    - "oval frames"
+    - "rimless"
+    - "aviator"
+    - "cat-eye"
+  heart:
+    - "cat-eye"
+    - "round frames"
+    - "rimless"
+    - "oval frames"
+    - "aviator"
+  diamond:
+    - "oval frames"
+    - "cat-eye"
+    - "rimless"
+    - "browline"
+    - "round frames"
+  oblong:
+    - "oversized frames"
+    - "round frames"
+    - "square frames"
+    - "wayfarer"
+    - "browline"
+  triangle:
+    - "cat-eye"
+    - "browline"
+    - "aviator"
+    - "oval frames"
+    - "rimless"
+
+# Hair styles by face shape and gender
+HAIR_STYLES:
+  male:
+    oval:
+      - "textured crop"
+      - "side part"
+      - "pompadour"
+      - "quiff"
+      - "buzz cut"
+    round:
+      - "textured quiff"
+      - "side sweep"
+      - "faux hawk"
+      - "angular fringe"
+      - "taper fade"
+    square:
+      - "textured crop"
+      - "side part"
+      - "messy fringe"
+      - "crew cut"
+      - "taper fade"
+    heart:
+      - "side sweep"
+      - "textured fringe"
+      - "quiff"
+      - "side part"
+      - "messy crop"
+    diamond:
+      - "textured crop"
+      - "side part"
+      - "pompadour"
+      - "quiff"
+      - "messy fringe"
+    oblong:
+      - "fringe"
+      - "textured crop"
+      - "side sweep"
+      - "caesar cut"
+      - "messy fringe"
+    triangle:
+      - "textured crop"
+      - "side part"
+      - "quiff"
+      - "messy fringe"
+      - "taper fade"
+  female:
+    oval:
+      - "long layers"
+      - "bob cut"
+      - "pixie cut"
+      - "curtain bangs"
+      - "beach waves"
+    round:
+      - "long layers"
+      - "side-swept bangs"
+      - "asymmetrical bob"
+      - "long pixie"
+      - "layered lob"
+    square:
+      - "soft layers"
+      - "side-swept bangs"
+      - "long bob"
+      - "curtain bangs"
+      - "wavy lob"
+    heart:
+      - "side-swept bangs"
+      - "long layers"
+      - "chin-length bob"
+      - "curtain bangs"
+      - "textured lob"
+    diamond:
+      - "long layers"
+      - "side-swept bangs"
+      - "chin-length bob"
+      - "curtain bangs"
+      - "textured pixie"
+    oblong:
+      - "blunt bangs"
+      - "chin-length bob"
+      - "curtain bangs"
+      - "wavy lob"
+      - "layered bob"
+    triangle:
+      - "side-swept bangs"
+      - "long layers"
+      - "chin-length bob"
+      - "curtain bangs"
+      - "textured lob"
+
+# Image processing settings
+IMAGE_SIZE: 224
+CONFIDENCE_THRESHOLD: 0.7
+NMS_THRESHOLD: 0.4
+MAX_FACES: 5
+
+# API settings
+API_HOST: "0.0.0.0"
+API_PORT: 8000
+
+# Frontend settings
+STREAMLIT_PORT: 8501
+UPLOAD_MAX_SIZE_MB: 10

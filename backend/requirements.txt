@@ -1,0 +1,22 @@
+# MVP runtime dependencies (face detection/landmarks/shape + beard/hair/glasses
+# recommendations, served via FastAPI). No frontend deps here - the frontend
+# is a separate Next.js app under /frontend.
+opencv-python-headless>=4.8.0
+mediapipe>=0.10.30
+numpy>=1.24.0
+Pillow>=10.0.0
+onnxruntime>=1.16.0
+PyYAML>=6.0.0
+pydantic>=2.0.0
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+python-multipart>=0.0.6
+
+# Phase 2 (not needed for MVP, add when the skin/acne transfer-learning
+# classifier and offline retraining pipeline are built):
+# torch>=2.0.0
+# torchvision>=0.15.0
+# timm>=0.9.0
+# albumentations>=1.3.0
+# scikit-learn>=1.3.0
+# pandas>=2.0.0

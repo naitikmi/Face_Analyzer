@@ -1,0 +1,21 @@
+# Python (backend/)
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Node (frontend/) - frontend/.gitignore covers most of this already,
+# this is a backstop in case files are ever referenced from the repo root.
+node_modules/
+.next/
+out/
+
+# Env files - never commit secrets/local config
+.env
+.env.local
+*.env.local
+
+# OS/editor cruft
+.DS_Store
+Thumbs.db

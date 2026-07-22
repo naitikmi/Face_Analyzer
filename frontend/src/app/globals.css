@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #f4ecdf;
+  --ink-dim: #cabfae;
+  --void: #14110f;
+  --void-deep: #0b0908;
+  --panel: #1c1815;
+  --panel-line: #342d26;
+  --brass: #c9a15a;
+  --brass-bright: #e6c07d;
+  --wine: #7a3b3b;
+  --sage: #7c8b6f;
+  --font-display: var(--font-fraunces);
+  --font-body: var(--font-archivo);
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-dim: var(--ink-dim);
+  --color-void: var(--void);
+  --color-void-deep: var(--void-deep);
+  --color-panel: var(--panel);
+  --color-panel-line: var(--panel-line);
+  --color-brass: var(--brass);
+  --color-brass-bright: var(--brass-bright);
+  --color-wine: var(--wine);
+  --color-sage: var(--sage);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--void);
+  color: var(--ink);
+  font-family: var(--font-body);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Soft film-grain + vignette wash over the whole studio */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  opacity: 0.5;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(ellipse 120% 80% at 50% -10%, rgba(201, 161, 90, 0.08), transparent 60%),
+    radial-gradient(ellipse 100% 60% at 50% 110%, rgba(0, 0, 0, 0.55), transparent 55%);
+}
+
+::selection {
+  background: var(--brass);
+  color: var(--void-deep);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Hairline rule used throughout as a quiet editorial divider */
+.rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--panel-line) 15%, var(--panel-line) 85%, transparent);
+}
+
+.grain-panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, var(--ink-dim) 0%, var(--brass-bright) 50%, var(--ink-dim) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer-sweep 2.4s linear infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(201, 161, 90, 0.45);
+  }
+  100% {
+    box-shadow: 0 0 0 18px rgba(201, 161, 90, 0);
+  }
+}
+
+.pulse-ring {
+  animation: pulse-ring 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Custom scrollbar for the horizontal lookbook rails */
+.rail::-webkit-scrollbar {
+  height: 6px;
+}
+.rail::-webkit-scrollbar-track {
+  background: transparent;
+}
+.rail::-webkit-scrollbar-thumb {
+  background: var(--panel-line);
+  border-radius: 999px;
+}
