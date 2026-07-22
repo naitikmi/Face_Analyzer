@@ -9,9 +9,11 @@ build time.
 1. Go to [dashboard.render.com](https://dashboard.render.com) and sign in (GitHub login is easiest).
 2. **New +** → **Web Service** → connect the `naitikmi/Face_Analyzer` GitHub repo.
 3. Configure:
+   - **Branch**: `main` (the repo's only branch — Render sometimes defaults to expecting `master`; pick `main` explicitly)
    - **Root Directory**: `backend`
    - **Environment**: `Docker` (Render auto-detects `backend/Dockerfile`)
    - **Instance Type**: Free is fine to start
+   - **Auto-Deploy**: on (default) — this is what gives you "push to `main` → redeploys automatically"
 4. Add environment variables (Render dashboard → Environment):
    - `GEMINI_API_KEY` — your key from [aistudio.google.com/apikey](https://aistudio.google.com/apikey) (optional — only needed for "preview on me"; leave unset and that one feature just degrades gracefully)
    - `ALLOWED_ORIGINS` — leave as `http://localhost:3000` for now, you'll update this once the frontend is deployed (step 3 below)
@@ -20,11 +22,14 @@ build time.
 
 Free tier note: the service spins down after 15 minutes idle. The first request after a gap takes ~30-60s to wake it back up — normal, not a bug.
 
+If the build itself fails: open the Render service → **Logs**, and paste the error back to me — I verified the Docker setup's dependency resolution carefully but couldn't run a live build myself (no container runtime available in my environment), so this is the one step I want to know about if it breaks.
+
 ## 2. Frontend → Vercel
 
 1. Go to [vercel.com/new](https://vercel.com/new) and sign in (GitHub login is easiest).
 2. Import the `naitikmi/Face_Analyzer` repo.
 3. Configure:
+   - **Production Branch**: `main`
    - **Root Directory**: `frontend`
    - Framework preset: Next.js (auto-detected)
 4. Add environment variable:
