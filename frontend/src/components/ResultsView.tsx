@@ -1,6 +1,6 @@
 "use client";
 
-import type { AnalyzeResponse, FeatureInsight, RecommendationItem } from "@/lib/types";
+import type { AnalyzeResponse, FeatureInsight, RecommendationItem, StyleCategory } from "@/lib/types";
 import RecommendationCard from "./RecommendationCard";
 
 function ShapeDistribution({ scores, leadingShape }: { scores: Record<string, number>; leadingShape: string }) {
@@ -55,7 +55,17 @@ function FeatureCard({ note }: { note: FeatureInsight }) {
   );
 }
 
-function Rail({ title, items }: { title: string; items: RecommendationItem[] }) {
+function Rail({
+  title,
+  items,
+  category,
+  originalImage,
+}: {
+  title: string;
+  items: RecommendationItem[];
+  category: StyleCategory;
+  originalImage: Blob | null;
+}) {
   if (items.length === 0) return null;
   return (
     <section className="flex flex-col gap-4">
@@ -66,7 +76,7 @@ function Rail({ title, items }: { title: string; items: RecommendationItem[] }) 
       </div>
       <div className="rail flex gap-4 overflow-x-auto pb-3">
         {items.map((item) => (
-          <RecommendationCard key={item.style_slug} item={item} />
+          <RecommendationCard key={item.style_slug} item={item} category={category} originalImage={originalImage} />
         ))}
       </div>
     </section>
@@ -76,10 +86,12 @@ function Rail({ title, items }: { title: string; items: RecommendationItem[] }) 
 export default function ResultsView({
   result,
   previewUrl,
+  originalImage,
   onReset,
 }: {
   result: AnalyzeResponse;
   previewUrl: string | null;
+  originalImage: Blob | null;
   onReset: () => void;
 }) {
   if (!result.face_detected || !result.face_shape || !result.recommendations) {
@@ -149,9 +161,9 @@ export default function ResultsView({
       )}
 
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-12">
-        <Rail title="Beard styles" items={recommendations.beard} />
-        <Rail title="Hairstyles" items={recommendations.hair} />
-        <Rail title="Glasses" items={recommendations.glasses} />
+        <Rail title="Beard styles" items={recommendations.beard} category="beard" originalImage={originalImage} />
+        <Rail title="Hairstyles" items={recommendations.hair} category="hair" originalImage={originalImage} />
+        <Rail title="Glasses" items={recommendations.glasses} category="glasses" originalImage={originalImage} />
       </div>
 
       <div className="flex justify-center pb-4">

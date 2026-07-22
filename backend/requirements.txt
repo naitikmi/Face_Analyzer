@@ -11,6 +11,13 @@ pydantic>=2.0.0
 fastapi>=0.100.0
 uvicorn[standard]>=0.23.0
 python-multipart>=0.0.6
+python-dotenv>=1.0.0
+
+# "Preview on me" style visualization (POST /api/visualize) - calls Gemini's
+# image-editing model. Requires a GEMINI_API_KEY (see backend/.env.example).
+# The rest of the app works fine without this key; only /api/visualize
+# needs it.
+google-genai>=1.0.0
 
 # Phase 2 (not needed for MVP, add when the skin/acne transfer-learning
 # classifier and offline retraining pipeline are built):

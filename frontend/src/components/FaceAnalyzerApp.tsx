@@ -225,7 +225,7 @@ export default function FaceAnalyzerApp() {
       )}
 
       {step === "results" && result && (
-        <ResultsView result={result} previewUrl={previewUrl} onReset={handleReset} />
+        <ResultsView result={result} previewUrl={previewUrl} originalImage={imageBlob} onReset={handleReset} />
       )}
 
       <footer className="mt-auto pt-16 text-center text-xs text-ink-dim/70">

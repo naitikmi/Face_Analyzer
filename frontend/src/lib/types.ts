@@ -1,5 +1,6 @@
 export type Gender = "male" | "female";
 export type MaintenancePreference = "low" | "medium" | "high";
+export type StyleCategory = "beard" | "hair" | "glasses";
 
 export interface FaceShapeInfo {
   shape: string;
