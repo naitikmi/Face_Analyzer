@@ -6,6 +6,43 @@ import type { RecommendationItem, StyleCategory } from "@/lib/types";
 
 type PreviewState = "idle" | "loading" | "ready" | "error" | "unavailable";
 
+/**
+ * Placeholder art shown until a real reference photo (or a generated
+ * preview) exists for a given style - distinct per category rather than
+ * one generic icon for everything, so the empty state still says
+ * something ("this is a beard card" / "this is glasses") at a glance.
+ */
+function CategoryIcon({ category }: { category: StyleCategory }) {
+  if (category === "beard") {
+    return (
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" className="opacity-50">
+        <path
+          d="M6 5c0 6 .5 9 2.5 11.5C10 18.5 11 19 12 19s2-.5 3.5-2.5C17.5 14 18 11 18 5"
+          stroke="currentColor"
+          strokeWidth="1.4"
+        />
+        <path d="M9 15.5v2M12 16.5v2.5M15 15.5v2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+      </svg>
+    );
+  }
+  if (category === "glasses") {
+    return (
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" className="opacity-50">
+        <circle cx="7" cy="12" r="4" stroke="currentColor" strokeWidth="1.4" />
+        <circle cx="17" cy="12" r="4" stroke="currentColor" strokeWidth="1.4" />
+        <path d="M11 12h2" stroke="currentColor" strokeWidth="1.4" />
+        <path d="M3 12l-1.5-1M21 12l1.5-1" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      </svg>
+    );
+  }
+  return (
+    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" className="opacity-50">
+      <rect x="5" y="5" width="14" height="4" rx="1" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M7 9v10M10 9v10M13 9v10M16 9v10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export default function RecommendationCard({
   item,
   category,
@@ -83,10 +120,7 @@ export default function RecommendationCard({
           />
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-ink-dim">
-            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" className="opacity-50">
-              <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="1.4" />
-              <path d="M4 20c0-3.5 3.5-6 8-6s8 2.5 8 6" stroke="currentColor" strokeWidth="1.4" />
-            </svg>
+            <CategoryIcon category={category} />
             <span className="px-3 text-center text-xs uppercase tracking-widest">Reference coming soon</span>
           </div>
         )}
