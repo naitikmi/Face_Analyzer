@@ -15,7 +15,7 @@ import os
 from typing import Literal
 
 from google import genai
-from google.genai import types
+from google.genai import errors as genai_errors
 from PIL import Image
 
 StyleCategory = Literal["beard", "hair", "glasses"]
@@ -75,10 +75,19 @@ class StyleVisualizer:
         source_image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
         prompt = _build_prompt(category, style)
 
-        response = client.models.generate_content(
-            model=MODEL_NAME,
-            contents=[source_image, prompt],
-        )
+        try:
+            response = client.models.generate_content(
+                model=MODEL_NAME,
+                contents=[source_image, prompt],
+            )
+        except genai_errors.APIError as exc:
+            if exc.code == 429:
+                raise StyleVisualizerError(
+                    "Gemini's image model is rate-limited or out of quota for this API key. "
+                    "Image generation isn't included in the free tier - check billing at "
+                    "https://aistudio.google.com/apikey for the project this key belongs to."
+                ) from exc
+            raise StyleVisualizerError(f"Gemini request failed ({exc.code}): {exc.message}") from exc
 
         candidates = response.candidates or []
         for candidate in candidates:
