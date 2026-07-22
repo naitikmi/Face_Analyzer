@@ -2,7 +2,11 @@
 # recommendations, served via FastAPI). No frontend deps here - the frontend
 # is a separate Next.js app under /frontend.
 opencv-python-headless>=4.8.0
-mediapipe>=0.10.30
+# >=0.10.18 rather than a higher floor: Linux wheels (used in the Docker
+# deploy) currently top out at 0.10.18, while Windows/py3.13 dev machines
+# resolve to a newer version - pip picks the latest available per-platform,
+# so this constraint needs to be satisfiable on both.
+mediapipe>=0.10.18
 numpy>=1.24.0
 Pillow>=10.0.0
 onnxruntime>=1.16.0
