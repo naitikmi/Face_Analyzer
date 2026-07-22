@@ -2,7 +2,9 @@ import type { NextConfig } from "next";
 import withSerwistInit from "@serwist/next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Allows the dev server to be reached from its LAN address (e.g. to test
+  // camera capture on a phone on the same network), not just localhost.
+  allowedDevOrigins: ["10.253.231.58"],
 };
 
 // Serwist generates the service worker via webpack (see package.json scripts,
