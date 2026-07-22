@@ -4,12 +4,16 @@ FastAPI application entry point.
 Run with: uvicorn face_analyzer.api.app:app --reload --port 8000
 """
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-load_dotenv()  # reads backend/.env if present (e.g. GEMINI_API_KEY)
+# Explicit path rather than load_dotenv()'s cwd-dependent search - this file
+# always resolves to backend/.env regardless of what directory the process
+# was actually launched from (e.g. --app-dir or a launch-config runner).
+load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
 from face_analyzer.api.routes.analyze import router as analyze_router
 from face_analyzer.api.routes.visualize import router as visualize_router
